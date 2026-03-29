@@ -7,8 +7,8 @@ A GitHub Action that checks Go code formatting and reports issues with **inline 
 ## Usage
 
 ```yaml
-- uses: actions/checkout@v4
-- uses: actions/setup-go@v5
+- uses: actions/checkout@v6
+- uses: actions/setup-go@v6
   with:
     go-version: stable
 - uses: pivovarit/gofmt-action@main
