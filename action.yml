@@ -1,0 +1,39 @@
+name: 'gofmt-action'
+description: 'Check that Go code is properly formatted and display results with inline annotations'
+branding:
+  icon: 'check-circle'
+  color: 'blue'
+
+inputs:
+  formatter:
+    description: 'Formatter to use: gofmt or goimports'
+    required: false
+    default: 'gofmt'
+  working-directory:
+    description: 'Directory to check (default: repository root)'
+    required: false
+    default: '.'
+  post-comment:
+    description: 'Post a PR comment with the diff (requires GITHUB_TOKEN)'
+    required: false
+    default: 'true'
+  autofix:
+    description: 'Automatically commit and push formatting fixes to the PR branch'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Check Go formatting
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        FORMATTER: ${{ inputs.formatter }}
+        POST_COMMENT: ${{ inputs.post-comment }}
+        AUTOFIX: ${{ inputs.autofix }}
+        GITHUB_TOKEN: ${{ github.token }}
+        WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+      run: |
+        "${GITHUB_ACTION_PATH}/action.sh"
